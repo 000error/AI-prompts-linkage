@@ -1,0 +1,22 @@
+d:\我的文件夹\All in AI\coding\
+├── manifest.json           # 插件配置文件
+├── popup/                  # 弹出窗口相关文件
+│   ├── popup.html
+│   ├── popup.css
+│   └── popup.js
+├── options/                # 选项页面相关文件
+│   ├── options.html
+│   ├── options.css
+│   └── options.js
+├── background/             # 后台脚本
+│   └── background.js
+├── content/                # 内容脚本
+│   ├── content.js          # 通用内容脚本
+│   └── platforms/          # 各平台特定适配脚本
+│       ├── chatgpt.js
+│       ├── bard.js
+│       ├── claude.js
+│       └── other-ai.js
+└── utils/                  # 工具函数
+    ├── storage.js
+    └── common.js

@@ -1,0 +1,475 @@
+/* AI Prompt Distributor - Content Styles */
+/* 浮动UI和内容脚本样式 */
+
+/* 浮动UI容器 */
+.ai-prompt-distributor {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
+  top: auto !important;
+  left: auto !important;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e1e5e9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  z-index: 10000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: block !important;
+}
+
+.ai-prompt-distributor.hidden {
+  transform: translateY(100%) scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 头部 */
+.ai-prompt-distributor .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.ai-prompt-distributor .header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ai-prompt-distributor .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.ai-prompt-distributor .close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 内容区域 */
+.ai-prompt-distributor .content {
+  padding: 16px;
+}
+
+/* 输入框 */
+.ai-prompt-distributor .input-group {
+  margin-bottom: 16px;
+}
+
+.ai-prompt-distributor .input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.ai-prompt-distributor .question-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.ai-prompt-distributor .question-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* 平台选择 */
+.ai-prompt-distributor .platforms-group {
+  margin-bottom: 16px;
+}
+
+.ai-prompt-distributor .platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.ai-prompt-distributor .platform-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+  position: relative;
+}
+
+.ai-prompt-distributor .platform-item:hover {
+  border-color: #d1d5db;
+  background: #f3f4f6;
+}
+
+.ai-prompt-distributor .platform-item.selected {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+
+.ai-prompt-distributor .platform-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-prompt-distributor .platform-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.ai-prompt-distributor .platform-emoji {
+  font-size: 16px;
+}
+
+.ai-prompt-distributor .platform-name {
+  font-size: 11px;
+  text-align: center;
+  color: #374151;
+  font-weight: 500;
+}
+
+.ai-prompt-distributor .platform-status {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 10px;
+}
+
+.ai-prompt-distributor .platform-status.success {
+  color: #10b981;
+}
+
+.ai-prompt-distributor .platform-status.error {
+  color: #ef4444;
+}
+
+/* 按钮 */
+.ai-prompt-distributor .actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ai-prompt-distributor .btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ai-prompt-distributor .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.ai-prompt-distributor .btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.ai-prompt-distributor .btn-primary:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.ai-prompt-distributor .btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.ai-prompt-distributor .btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+/* 状态消息 */
+.ai-prompt-distributor .status-message {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: none;
+}
+
+.ai-prompt-distributor .status-message.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.ai-prompt-distributor .status-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.ai-prompt-distributor .status-message.warning {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.ai-prompt-distributor .status-message.loading {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+/* 底部 */
+.ai-prompt-distributor .footer {
+  padding: 12px 16px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+  border-radius: 0 0 12px 12px;
+}
+
+.ai-prompt-distributor .footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ai-prompt-distributor .auto-show-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-prompt-distributor .toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #d1d5db;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ai-prompt-distributor .toggle-switch.active {
+  background: #667eea;
+}
+
+.ai-prompt-distributor .toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.ai-prompt-distributor .toggle-switch.active::after {
+  transform: translateX(16px);
+}
+
+.ai-prompt-distributor .footer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ai-prompt-distributor .footer-btn {
+  padding: 4px 8px;
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ai-prompt-distributor .footer-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .ai-prompt-distributor {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
+  }
+  
+  .ai-prompt-distributor .platforms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 动画 */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ai-prompt-distributor.show {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* 加载动画 */
+.ai-prompt-distributor .loading-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 滚动条样式 */
+.ai-prompt-distributor .platforms-grid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-prompt-distributor .platforms-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.ai-prompt-distributor .platforms-grid::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.ai-prompt-distributor .platforms-grid::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 工具提示 */
+.ai-prompt-distributor .tooltip {
+  position: relative;
+}
+
+.ai-prompt-distributor .tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #374151;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 1000;
+}
+
+.ai-prompt-distributor .tooltip:hover::after {
+  opacity: 1;
+}
+
+/* 二维码弹窗样式 */
+.qrcode-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+
+.qrcode-container {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 300px;
+}
+
+.qrcode-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.qrcode-img {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* 隐藏类 */
+.hidden {
+  display: none !important;
+}
+
+/* 可见性切换 */
+.invisible {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: auto;
+}

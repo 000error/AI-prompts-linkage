@@ -1,0 +1,267 @@
+/* 从 content.js 的样式复制，保持与目标网页弹出界面一致 */
+:root {
+  --primary-color: #6e48aa;
+  --secondary-color: #9d50bb;
+  --accent-color: #4776e6;
+  --text-dark: #2c3e50;
+  --text-light: #ecf0f1;
+  --success-color: #2ecc71;
+  --error-color: #e74c3c;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  width: 380px; /* 固定宽度 */
+  /* 让浏览器根据内容和最大限制自动调整高度 */
+}
+
+/* 调整 .container 样式以适应 Popup */
+.container {
+  width: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  /* 可以设置一个最大高度，配合 body 的自适应 */
+  max-height: 600px; /* 接近浏览器限制 */
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 12px 15px; /* 稍微减小内边距 */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 居中 */
+  flex-shrink: 0; /* 防止头部被压缩 */
+}
+
+.header h1 {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+}
+
+.header .subtitle {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.9;
+  font-weight: 400;
+  text-align: center;
+}
+
+.content {
+  padding: 15px; /* 稍微减小内边距 */
+  overflow-y: auto; /* 内容超出时允许滚动 */
+  flex-grow: 1; /* 占据剩余空间 */
+  /* 添加一个最小高度，防止内容过少时塌陷 */
+  min-height: 150px;
+}
+
+/* Input Section */
+.input-section {
+  margin-bottom: 15px;
+}
+
+.input-section label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+#promptInput {
+  width: 100%;
+  box-sizing: border-box; /* 让 padding 和 border 不增加宽度 */
+  min-height: 100px; /* 减小最小高度 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 15px; /* 增加底部间距 */
+}
+
+#promptInput:focus {
+  outline: none;
+  border-color: #6e48aa;
+}
+
+/* Platform Section */
+.platform-section {
+  margin-bottom: 15px;
+}
+
+.platform-section label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.platform-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 自动填充列 */
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.platform-item {
+  position: relative;
+}
+
+.platform-item input[type="checkbox"] {
+  display: none; /* 隐藏原始复选框 */
+}
+
+.platform-label {
+  display: flex;
+  flex-direction: column; /* 图标和文字垂直排列 */
+  align-items: center;
+  padding: 10px 5px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.platform-label:hover {
+  border-color: #6e48aa;
+  background: rgba(110, 72, 170, 0.05);
+}
+
+.platform-item input[type="checkbox"]:checked + .platform-label {
+  border-color: var(--primary-color);
+  background-color: #e8dff5; /* 选中时的背景色 */
+  box-shadow: 0 0 5px rgba(110, 72, 170, 0.3);
+}
+
+.platform-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-bottom: 5px; /* 图标和文字间距 */
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platform-name {
+  font-size: 12px;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px; /* 防止文字过长 */
+}
+
+/* Action Section */
+.action-section {
+  display: flex;
+  justify-content: center; /* 居中按钮 */
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.btn-secondary {
+  background-color: #f8f9fa;
+  color: var(--text-dark);
+  border: 1px solid #ddd;
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Status Section */
+.status-section {
+  min-height: 24px;
+  margin-bottom: 16px;
+}
+
+.status-message {
+  margin-top: 15px;
+  font-size: 13px;
+  min-height: 18px; /* 占位，防止布局跳动 */
+  text-align: center;
+}
+
+.status-message.success {
+  color: var(--success-color);
+}
+
+.status-message.error {
+  color: var(--error-color);
+}
+
+/* Footer */
+.footer {
+  padding: 8px 15px;
+  background-color: #f1f1f1;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  flex-shrink: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.footer-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.footer-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.version {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #999;
+  font-weight: 400;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AI Prompts Linkage</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="../config/platforms.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Prompts Linkage</h1>
+            <p class="subtitle">智能提示词分发工具</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-section">
+                <label for="promptInput">输入提示词</label>
+                <textarea id="promptInput" placeholder="请输入您的提示词内容..."></textarea>
+            </div>
+            
+            <div class="platform-section">
+                <label>选择目标平台</label>
+                <div id="platformList" class="platform-list">
+                    <!-- 平台选项将通过 JavaScript 动态生成 -->
+                </div>
+            </div>
+            
+            <div class="action-section">
+                <button id="distributeBtn" class="btn btn-primary">分发到选中平台</button>
+                <button id="selectAllBtn" class="btn btn-secondary">全选</button>
+                <button id="clearBtn" class="btn btn-secondary">清空</button>
+            </div>
+            
+            <div class="status-section">
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-buttons">
+                <button id="donateBtn" class="footer-btn">💖 赞助</button>
+                <button id="contactBtn" class="footer-btn">📧 联系</button>
+            </div>
+            <p class="version">v1.1</p>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

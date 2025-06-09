@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Distributor</title>
+    <style>
+        :root {
+            --primary-color: #6e48aa;
+            --secondary-color: #9d50bb;
+            --accent-color: #4776e6;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --success-color: #2ecc71;
+        }
+
+        .floating-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            z-index: 9999;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .floating-container.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .detected-platform {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .platform-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .platform-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .verified-badge {
+            color: var(--success-color);
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
+            margin-bottom: 15px;
+            transition: border 0.2s;
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(71, 118, 230, 0.2);
+        }
+
+        .targets-container {
+            margin-bottom: 20px;
+        }
+
+        .targets-title {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+        }
+
+        .target-option {
+            position: relative;
+        }
+
+        .target-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .target-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background: #f5f7fa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .target-option input:checked + label {
+            background: rgba(110, 72, 170, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .target-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .target-name {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(110, 72, 170, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f7fa;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .footer {
+            padding: 0 20px 15px;
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .floating-container {
+                width: 90vw;
+                right: 5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container visible">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" fill="currentColor"/>
+                </svg>
+                <span>AI Prompt Distributor</span>
+            </div>
+            <button class="close-btn">×</button>
+        </div>
+
+        <div class="content">
+            <div class="detected-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" fill="#10a37f"/>
+                </svg>
+                <span class="platform-name">ChatGPT</span>
+                <span class="verified-badge">✓ 已适配</span>
+            </div>
+
+            <textarea class="prompt-textarea" placeholder="输入您想同时发送到多个AI平台的问题...">如何用Python实现快速排序算法？请给出详细代码示例和复杂度分析。</textarea>
+
+            <div class="targets-container">
+                <span class="targets-title">选择要分发的目标平台：</span>
+                <div class="targets-grid">
+                    <div class="target-option">
+                        <input type="checkbox" id="target-chatgpt" checked disabled>
+                        <label for="target-chatgpt">
+                            <svg class="target-icon" viewBox="0 0 24 24" fill="#10a37f">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                            </svg>
+                            <span class="target-name">ChatGPT</span>
+                        </label>
+                    </div>
+                    <div class="target-option">
+                        <input type="checkbox" id="target-claude" checked>
+                        <label for="target-claude">
+                            <svg class="target-icon" viewBox="0 0 24 24" fill="#f4b728">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <span class="target-name">Claude</span>
+                        </label>
+                    </div>
+                    <div class="target-option">
+                        <input type="checkbox" id="target-bard">
+                        <label for="target-bard">
+                            <svg class="target-icon" viewBox="0 0 24 24" fill="#1a73e8">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                            </svg>
+                            <span class="target-name">Bard</span>
+                        </label>
+                    </div>
+                    <div class="target-option">
+                        <input type="checkbox" id="target-llama">
+                        <label for="target-llama">
+                            <svg class="target-icon" viewBox="0 0 24 24" fill="#5b21b6">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                            </svg>
+                            <span class="target-name">Llama</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary">保存为模板</button>
+                <button class="btn btn-primary">立即分发</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            当前页面已自动填充，修改内容将同步更新
+        </div>
+    </div>
+
+    <script>
+        // 模拟插件交互逻辑
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.querySelector('.floating-container').classList.remove('visible');
+        });
+
+        // 模拟自动填充当前页面已有内容
+        setTimeout(() => {
+            const textarea = document.querySelector('.prompt-textarea');
+            textarea.focus();
+            textarea.selectionStart = textarea.value.length;
+        }, 300);
+    </script>
+</body>
+</html>
